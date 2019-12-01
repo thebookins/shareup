@@ -1,6 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const storage = require('node-persist');
+// const storage = require('node-persist');
+
+const client = require('redis').createClient(process.env.REDIS_URL);
 
 const app = express();
 app.use(bodyParser.json());
@@ -9,13 +11,13 @@ app.use(bodyParser.json());
 const distDir = __dirname + "/dist/";
 app.use(express.static(distDir));
 
-storage.init().then(() => {
+// storage.init().then(() => {
   // Initialize the app.
   const server = app.listen(process.env.PORT || 8080, function () {
     var port = server.address().port;
     console.log("App now running on port", port);
   });
-});
+// });
 
 
 // STATUS API ROUTES BELOW
@@ -24,9 +26,13 @@ storage.init().then(() => {
  */
 
 app.get("/api/status", function(req, res) {
-  storage.values().then(values => {
-    res.status(200).json(values);
+  client.get("ous", function(err, reply) {
+    // reply is null when the key is missing
+    res.status(200).json([reply]);
   });
+  // storage.values().then(values => {
+  //   res.status(200).json(values);
+  // });
 });
 
 /*  "/api/status/:id"
