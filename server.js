@@ -5,6 +5,10 @@ const storage = require('node-persist');
 const app = express();
 app.use(bodyParser.json());
 
+// Create link to Angular build directory
+const distDir = __dirname + "/dist/";
+app.use(express.static(distDir));
+
 storage.init().then(() => {
   // Initialize the app.
   const server = app.listen(process.env.PORT || 8080, function () {
