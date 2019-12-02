@@ -12,7 +12,7 @@ const client = require('redis').createClient(process.env.REDIS_URL);
 const now = new Date().toISOString();
 
 client.get('status', (err, val) => {
-  let status = JSON.parse(val) || {at: new Date(0).toISOString(), up: false, since: new Date(0).toISOString()};
+  let status = JSON.parse(val);
   request(`${shareUS}${systemTime}`, function (error, response, body) {
     // console.log('errorOUS:', error); // Print the error if one occurred
     // console.log('statusCodeOUS:', response && response.statusCode); // Print the response status code if a response was received

@@ -19,6 +19,11 @@ app.use(express.static(distDir));
   });
 // });
 
+client.get('status', (err, val) => {
+  if (!val) {
+    client.set('status', JSON.stringify({at: new Date(0).toISOString(), up: false, since: new Date(0).toISOString()}))
+  }
+});
 
 // STATUS API ROUTES BELOW
 /*  "/api/status"
