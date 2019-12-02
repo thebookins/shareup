@@ -2,8 +2,8 @@ const request = require('request');
 
 var parseString = require('xml2js').parseString;
 
-// const shareUS = 'https://share1.dexcom.com'
-const shareOUS = 'https://shareous1.dexcom.com'
+const shareUS = 'https://share1.dexcom.com'
+// const shareOUS = 'https://shareous1.dexcom.com'
 // from https://github.com/nightscout/share2nightscout-bridge/issues/15
 const systemTime = '/ShareWebServices/Services/General/SystemUtcTime'
 
@@ -14,7 +14,7 @@ const now = new Date().toISOString();
 client.get('status', (err, val) => {
   let status = JSON.parse(val);
   console.log(status);
-  request(`${shareOUS}${systemTime}`, function (error, response, body) {
+  request(`${shareUS}${systemTime}`, function (error, response, body) {
     // console.log('errorOUS:', error); // Print the error if one occurred
     // console.log('statusCodeOUS:', response && response.statusCode); // Print the response status code if a response was received
     parseString(body, function (err, result) {
