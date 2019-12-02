@@ -12,8 +12,7 @@ const client = require('redis').createClient(process.env.REDIS_URL);
 const now = new Date().toISOString();
 
 client.get('status', (err, val) => {
-  let status = JSON.parse(val);
-  console.log(status);
+  let status = JSON.parse(val) || {at: new Date(0).toISOString(), up: false, since: new Date(0).toISOString()};
   request(`${shareUS}${systemTime}`, function (error, response, body) {
     // console.log('errorOUS:', error); // Print the error if one occurred
     // console.log('statusCodeOUS:', response && response.statusCode); // Print the response status code if a response was received
@@ -36,19 +35,3 @@ client.get('status', (err, val) => {
     });
   });
 });
-
-// request(`${shareUS}${systemTime}`, function (error, response, body) {
-//   console.log('errorUS:', error); // Print the error if one occurred
-//   console.log('statusCodeUS:', response && response.statusCode); // Print the response status code if a response was received
-//   console.log('bodyUS:', body); // Print the HTML for the Google homepage.
-// });
-
-// (async () => {
-//   await storage.init();
-// const now = new Date().toISOString();
-// client.set('us', now);
-// client.set('ous', now);
-//
-// client.set('status', 1);
-//   await storage.setItem('ous', now);
-// })();
