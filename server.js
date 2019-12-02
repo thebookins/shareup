@@ -26,10 +26,10 @@ app.use(express.static(distDir));
  */
 
 app.get("/api/status", function(req, res) {
-  client.get("ous", function(err, reply) {
+  client.get("status", function(err, reply) {
     // reply is null when the key is missing
     // TODO: add if (reply) or something
-    res.status(200).json([reply]);
+    res.status(200).json(JSON.parse(reply));
   });
   // storage.values().then(values => {
   //   res.status(200).json(values);
