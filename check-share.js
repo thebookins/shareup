@@ -29,7 +29,7 @@ client.get('status', (err, val) => {
           client.set('status', JSON.stringify({at: now, up: true, since: status.since}));
         } else {
           // const since = new Date(result.DateTimeOffset.DateTime[0]).toISOString();
-          client.set('status', JSON.stringify({at: now, up: true, now}));
+          client.set('status', JSON.stringify({at: now, up: true, since: now}));
         }
       }
       client.quit();
