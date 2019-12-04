@@ -2,6 +2,8 @@ const request = require('request');
 
 var parseString = require('xml2js').parseString;
 
+const twit = require('./twit');
+
 const shareUS = 'https://share1.dexcom.com'
 // const shareOUS = 'https://shareous1.dexcom.com'
 // from https://github.com/nightscout/share2nightscout-bridge/issues/15
@@ -35,3 +37,5 @@ client.get('status', (err, val) => {
     });
   });
 });
+
+twit.tweet();
