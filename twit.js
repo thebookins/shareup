@@ -1,4 +1,4 @@
-const Twit = require(‘twit’);
+const Twit = require('twit');
 
 const T = new Twit({
   consumer_key:         process.env.BOT_CONSUMER_KEY,
