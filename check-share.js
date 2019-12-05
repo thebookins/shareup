@@ -39,5 +39,3 @@ client.get('status', (err, val) => {
     });
   });
 });
-
-twit.tweet(`Share is down at ${now}.`);
