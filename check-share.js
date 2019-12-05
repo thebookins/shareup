@@ -11,7 +11,8 @@ const systemTime = '/ShareWebServices/Services/General/SystemUtcTime'
 
 const client = require('redis').createClient(process.env.REDIS_URL);
 
-const now = new Date().toISOString();
+const now = new Date();
+const nowString = now.toISOString();
 
 client.get('status', (err, val) => {
   let status = JSON.parse(val);
@@ -21,16 +22,17 @@ client.get('status', (err, val) => {
     parseString(body, function (err, result) {
       if (err) {
         if (status.up) {
-          client.set('status', JSON.stringify({at: now, up: false, since: now}));
+          client.set('status', JSON.stringify({at: nowString, up: false, since: nowString}));
+          twit.tweet(`Share is down at ${now}.`);
         } else {
-          client.set('status', JSON.stringify({at: now, up: false, since: status.since}));
+          client.set('status', JSON.stringify({at: nowString, up: false, since: status.since}));
         }
       } else {
         if (status.up) {
-          client.set('status', JSON.stringify({at: now, up: true, since: status.since}));
+          client.set('status', JSON.stringify({at: nowString, up: true, since: status.since}));
         } else {
-          // const since = new Date(result.DateTimeOffset.DateTime[0]).toISOString();
-          client.set('status', JSON.stringify({at: now, up: true, since: now}));
+          client.set('status', JSON.stringify({at: nowString, up: true, since: nowString}));
+          twit.tweet(`Share is up at ${now}.`);
         }
       }
       client.quit();
@@ -38,4 +40,4 @@ client.get('status', (err, val) => {
   });
 });
 
-twit.tweet();
+twit.tweet(`Share is down at ${now}.`);

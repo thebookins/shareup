@@ -9,32 +9,9 @@ const T = new Twit({
   strictSSL:            false,     // optional - requires SSL certificates to be valid.
 })
 
-// var phraseArray = [ "hey twitter",
-//                     "im tweeting",
-//                     "tweet tweet",
-//                     "tweetstorm time... 1/22",
-//                     "plz RT v important",
-//                     "delete ur account",
-//                     "it me",
-//                     "same",
-//                     "#dogpants go on 4 legs!!",
-//                     "#thedress is blue and black" ];
-// function chooseRandom(myArray) {
-//   return myArray[Math.floor(Math.random() * myArray.length)];
-// }
-// var phrase = chooseRandom(phraseArray) + ", " + chooseRandom(phraseArray);
-// Bot.tweet(phrase);
-//
-
-
-
-//
-//  tweet 'hello world!'
-//
-
 module.exports = {
-  tweet: () => {
-    T.post('statuses/update', { status: 'hello world!' }, function(err, data, response) {
+  tweet: (message) => {
+    T.post('statuses/update', { status: message }, function(err, data, response) {
       console.log(data)
     })
   }
