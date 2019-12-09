@@ -3,6 +3,7 @@ const request = require('request');
 var parseString = require('xml2js').parseString;
 
 const twit = require('./twit');
+const fb = require('./fb');
 
 const shareUS = 'https://share1.dexcom.com'
 // const shareOUS = 'https://shareous1.dexcom.com'
@@ -24,6 +25,7 @@ client.get('status', (err, val) => {
         if (status.up) {
           client.set('status', JSON.stringify({at: nowString, up: false, since: nowString}));
           twit.tweet(`Share is down at ${now}.`);
+          fb.post(`Share is down at ${now}.`);
         } else {
           client.set('status', JSON.stringify({at: nowString, up: false, since: status.since}));
         }
@@ -33,6 +35,7 @@ client.get('status', (err, val) => {
         } else {
           client.set('status', JSON.stringify({at: nowString, up: true, since: nowString}));
           twit.tweet(`Share is up at ${now}.`);
+          fb.post(`Share is up at ${now}.`);
         }
       }
       client.quit();
