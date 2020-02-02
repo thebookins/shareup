@@ -1,8 +1,9 @@
 import { Component, ElementRef, AfterViewInit, Input } from '@angular/core';
 
 @Component({
-    selector: 'fb-like',
-    template: `<div class="fb-like" [attr.data-href]="url" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>`
+    selector: 'app-fb-like',
+    templateUrl: './fb-like.component.html',
+    styleUrls: ['./fb-like.component.css']
 })
 
 export class FbLikeComponent implements AfterViewInit {
