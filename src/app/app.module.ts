@@ -9,12 +9,14 @@ import { MatCardModule } from '@angular/material/card';
 import { TimeAgoPipe } from 'time-ago-pipe';
 
 import { HttpClientModule } from '@angular/common/http';
+import { TwitFollowComponent } from './twit-follow/twit-follow.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StatusBarComponent,
-    TimeAgoPipe
+    TimeAgoPipe,
+    TwitFollowComponent
   ],
   imports: [
     BrowserModule,
