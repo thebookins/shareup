@@ -12,6 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { TwitFollowComponent } from './twit-follow/twit-follow.component';
 import { FbLikeComponent } from './fb-like/fb-like.component';
 
+import { JwSocialButtonsModule } from 'jw-angular-social-buttons';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +26,8 @@ import { FbLikeComponent } from './fb-like/fb-like.component';
     BrowserModule,
     BrowserAnimationsModule,
     MatCardModule,
-    HttpClientModule
+    HttpClientModule,
+    JwSocialButtonsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
