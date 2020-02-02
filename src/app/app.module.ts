@@ -10,13 +10,15 @@ import { TimeAgoPipe } from 'time-ago-pipe';
 
 import { HttpClientModule } from '@angular/common/http';
 import { TwitFollowComponent } from './twit-follow/twit-follow.component';
+import { FbLikeComponent } from './fb-like/fb-like.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StatusBarComponent,
     TimeAgoPipe,
-    TwitFollowComponent
+    TwitFollowComponent,
+    FbLikeComponent
   ],
   imports: [
     BrowserModule,
