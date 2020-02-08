@@ -1,6 +1,6 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-// const storage = require('node-persist');
+const express = require('express');
+const bodyParser = require('body-parser');
+const WebSocket = require('ws');
 
 const client = require('redis').createClient(process.env.REDIS_URL);
 
@@ -11,13 +11,13 @@ app.use(bodyParser.json());
 const distDir = __dirname + "/dist/";
 app.use(express.static(distDir));
 
-// storage.init().then(() => {
-  // Initialize the app.
-  const server = app.listen(process.env.PORT || 8080, function () {
-    var port = server.address().port;
-    console.log("App now running on port", port);
-  });
-// });
+const server = app.listen(process.env.PORT || 8080, function () {
+  var port = server.address().port;
+  console.log("App now running on port", port);
+});
+
+//initialize the WebSocket server instance
+const wss = new WebSocket.Server({ server });
 
 client.get('status', (err, val) => {
   if (!val) {
@@ -25,11 +25,20 @@ client.get('status', (err, val) => {
   }
 });
 
+setTimeout(() => {
+  client.get("status", function(err, reply) {
+    wss.clients.forEach(function each(wsClient) {
+      if (wsClient.readyState === WebSocket.OPEN) {
+        wsClient.send(JSON.parse(reply));
+      }
+    });
+  });
+}, 60000);
+
 // STATUS API ROUTES BELOW
 /*  "/api/status"
  *    GET: finds all statuses
  */
-
 app.get("/api/status", function(req, res) {
   client.get("status", function(err, reply) {
     // reply is null when the key is missing
