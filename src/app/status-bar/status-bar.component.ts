@@ -11,7 +11,7 @@ import { startWith, switchMap } from "rxjs/operators";
 })
 export class StatusBarComponent implements OnInit {
 
-  status: Status
+  status: Status = {up: true, since: new Date(), at: new Date()};
 
   constructor(private statusService: StatusService) { }
 
