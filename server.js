@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const WebSocket = require('ws');
 
 const client = require('redis').createClient(process.env.REDIS_URL);
 
@@ -16,24 +15,11 @@ const server = app.listen(process.env.PORT || 8080, function () {
   console.log("App now running on port", port);
 });
 
-//initialize the WebSocket server instance
-const wss = new WebSocket.Server({ server });
-
 client.get('status', (err, val) => {
   if (!val) {
     client.set('status', JSON.stringify({at: new Date(0).toISOString(), up: false, since: new Date(0).toISOString()}))
   }
 });
-
-setTimeout(() => {
-  client.get("status", function(err, reply) {
-    wss.clients.forEach(function each(wsClient) {
-      if (wsClient.readyState === WebSocket.OPEN) {
-        wsClient.send(JSON.parse(reply));
-      }
-    });
-  });
-}, 60000);
 
 // STATUS API ROUTES BELOW
 /*  "/api/status"
