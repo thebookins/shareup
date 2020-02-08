@@ -19,6 +19,7 @@ const broadcastStatus = status => {
   const message = `Share has changed status to ${status.up ? 'UP' : 'DOWN'}. http://shareup2.herokuapp.com`;
   twit.tweet(message);
   fb.post(message);
+  client.set('lastBroadcast', nowString);
 };
 
 client.get('status', (err, val) => {
@@ -44,6 +45,9 @@ client.get('status', (err, val) => {
     });
   });
   client.set('status', JSON.stringify(status));
+  client.get('lastBroadcast', (err, val) => {
+    console.log(`lastBroadcast = ${JSON.parse(val)}.`)
+  });
 });
 
 client.quit();
