@@ -1,14 +1,13 @@
 <mat-card class="example-card">
   <mat-card-header>
     <mat-card-title>Share US status</mat-card-title>
-    <mat-card-subtitle>{{ status.up ? "online" : "offline"}}</mat-card-subtitle>
+    <mat-card-subtitle>
+      {{ status.up ? "online" : "offline" }} since {{ status.since | date }} ({{ status.since | timeAgo }})
+    </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
     <p>
-      Status checked {{status.at | timeAgo}}
-    </p>
-    <p>
-      Last status change {{status.since | timeAgo}}
+      Status checked {{ status.at | timeAgo }}
     </p>
   </mat-card-content>
   <mat-card-actions>
