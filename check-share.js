@@ -45,9 +45,9 @@ client.get('status', (err, val) => {
     });
   });
   client.set('status', JSON.stringify(status));
-  client.get('lastBroadcast', (err, val) => {
-    console.log(`lastBroadcast = ${JSON.parse(val)}.`)
-  });
+  // client.get('lastBroadcast', (err, val) => {
+  //   console.log(`lastBroadcast = ${JSON.parse(val)}.`)
+  // });
 });
 
 client.quit();
