@@ -15,30 +15,35 @@ const client = require('redis').createClient(process.env.REDIS_URL);
 const now = new Date();
 const nowString = now.toISOString();
 
+const broadcastStatus = status => {
+  const message = `Share has changed status to ${status.up ? 'UP' : 'DOWN'}. http://shareup2.herokuapp.com`;
+  twit.tweet(message);
+  fb.post(message);
+};
+
 client.get('status', (err, val) => {
   let status = JSON.parse(val);
+  status.at = nowString;
   request(`${shareUS}${systemTime}`, function (error, response, body) {
     // console.log('errorOUS:', error); // Print the error if one occurred
     // console.log('statusCodeOUS:', response && response.statusCode); // Print the response status code if a response was received
     parseString(body, function (err, result) {
       if (err) {
         if (status.up) {
-          client.set('status', JSON.stringify({at: nowString, up: false, since: nowString}));
-          twit.tweet(`Share is down at ${now}.`);
-          fb.post(`Share is down at ${now}.`);
-        } else {
-          client.set('status', JSON.stringify({at: nowString, up: false, since: status.since}));
+          status.up = false;
+          status.since = nowString;
+          broadcastStatus(status);
         }
       } else {
-        if (status.up) {
-          client.set('status', JSON.stringify({at: nowString, up: true, since: status.since}));
-        } else {
-          client.set('status', JSON.stringify({at: nowString, up: true, since: nowString}));
-          twit.tweet(`Share is up at ${now}.`);
-          fb.post(`Share is up at ${now}.`);
+        if (!status.up) {
+          status.up = true;
+          status.since = nowString;
+          broadcastStatus(status);
         }
       }
-      client.quit();
     });
   });
+  client.set('status', JSON.stringify(status));
 });
+
+client.quit();
