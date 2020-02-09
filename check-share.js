@@ -20,12 +20,10 @@ const broadcastStatus = status => {
   const message = `Share has changed status to ${status.up ? 'UP' : 'DOWN'}. http://shareup2.herokuapp.com`;
   twit.tweet(message);
   fb.post(message);
-  client.set('lastBroadcast', nowString);
 };
 
 client.get('status', (err, val) => {
   let status = JSON.parse(val);
-  console.log(`status = ${JSON.stringify(status)}`);
   status.at = nowString;
   request(`${shareUS}${systemTime}`, function (error, response, body) {
     // console.log('errorOUS:', error); // Print the error if one occurred
@@ -44,13 +42,8 @@ client.get('status', (err, val) => {
           broadcastStatus(status);
         }
       }
-      console.log(`status = ${JSON.stringify(status)}`);
       client.set('status', JSON.stringify(status), redis.print);
       client.quit();
     });
   });
-
-  // client.get('lastBroadcast', (err, val) => {
-  //   console.log(`lastBroadcast = ${JSON.parse(val)}.`)
-  // });
 });
