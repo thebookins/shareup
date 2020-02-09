@@ -10,7 +10,8 @@ const shareUS = 'https://share1.dexcom.com'
 // from https://github.com/nightscout/share2nightscout-bridge/issues/15
 const systemTime = '/ShareWebServices/Services/General/SystemUtcTime'
 
-const client = require('redis').createClient(process.env.REDIS_URL);
+const redis = require('redis');
+const client = redis.createClient(process.env.REDIS_URL);
 
 const now = new Date();
 const nowString = now.toISOString();
@@ -43,13 +44,13 @@ client.get('status', (err, val) => {
           broadcastStatus(status);
         }
       }
+      console.log(`status = ${JSON.stringify(status)}`);
+      client.set('status', JSON.stringify(status), redis.print);
+      client.quit();
     });
   });
-  console.log(`status = ${JSON.stringify(status)}`);
-  client.set('status', JSON.stringify(status));
+
   // client.get('lastBroadcast', (err, val) => {
   //   console.log(`lastBroadcast = ${JSON.parse(val)}.`)
   // });
 });
-
-client.quit();
