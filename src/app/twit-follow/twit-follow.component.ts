@@ -7,7 +7,7 @@ import { Component, ElementRef, AfterViewInit, Input } from '@angular/core';
 })
 export class TwitFollowComponent implements AfterViewInit {
   // @Input() url = location.href;
-  // @Input() text = '';
+  @Input() text = '';
 
   constructor() {
     // load twitter sdk if required

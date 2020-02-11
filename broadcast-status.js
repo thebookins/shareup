@@ -10,7 +10,7 @@ client.get('status', (err, val) => {
   const statusStr = status.up ? 'up' : 'down';
   // const taStr = ta.ago(status.since).slice(0, -4);
   const taStr = moment(status.since).fromNow(true);
-  const lastCheckedStr = moment().calendar(status.at).replace(/^\w/, c => c.toLowerCase());
+  const lastCheckedStr = moment(status.at).calendar().replace(/^\w/, c => c.toLowerCase());
   const message = `Share has been ${statusStr} for ${taStr}. Last checked ${lastCheckedStr} (UTC). http://shareup2.herokuapp.com`;
   twit.tweet(message);
   fb.post(message);
